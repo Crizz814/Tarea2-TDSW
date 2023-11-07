@@ -2,5 +2,6 @@
 
 Integrantes:
 
-Cristóbal González Gaete
+Cristóbal González Gaete 
+
 Miguel Castillo Fuentes
