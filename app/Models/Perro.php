@@ -11,6 +11,12 @@ class Perro extends Model
 
     protected $table = 'perro';
 
+    protected $fillable =[
+        'nombre',
+        'url_imagen',
+        'descripcion'
+    ];
+
     public function interesados(){
         return $this->belongsToMany(Perro::class, 'interaccion', 'id_perro_candidato', 'id_perro_interesado');
     }
