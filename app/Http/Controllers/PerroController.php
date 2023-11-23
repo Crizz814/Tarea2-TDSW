@@ -38,4 +38,9 @@ class PerroController extends Controller
     {
         return $this->perroRepository->eliminarPerro($request);
     }
+
+    public function perroRandom(Request $request)
+    {
+        return $this->perroRepository->perroRandom($request);
+    }
 }

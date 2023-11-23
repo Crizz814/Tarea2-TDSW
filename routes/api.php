@@ -21,6 +21,7 @@ Route::group(['prefix' => 'perro'], function () {
     Route::get('/listarPerro/{id}', [PerroController::class, 'listarPerro']);
     Route::get('/listarPerros', [PerroController::class, 'listarPerros']);
     Route::get('/eliminarPoke/{id}', [PerroController::class, 'eliminarPerro']);
+    Route::get('/perroRandom', [PerroController::class, 'perroRandom']);
 });
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
