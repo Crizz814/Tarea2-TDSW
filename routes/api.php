@@ -24,6 +24,8 @@ Route::group(['prefix' => 'perro'], function () {
     Route::get('/perroRandom', [PerroController::class, 'perroRandom']);
 });
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+Route::group(['prefix' => 'interaccion'], function () {
+    Route::post('/registrarInteraccion', [PerroController::class, 'registrarInteraccion']);
 });
+
+

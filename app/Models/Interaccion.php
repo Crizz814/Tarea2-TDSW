@@ -18,4 +18,8 @@ class Interaccion extends Model
     public function perroCandidato(){
         return $this->belongsTo(Perro::class, 'id_perro_candidato');
     }
+
+    protected $fillable =[
+        'preferencia'
+    ];
 }

@@ -26,7 +26,7 @@ class InteraccionRequest extends FormRequest
         return [
             'id_perro_interesado' => 'required|integer|exists:perro,id',
             'id_perro_candidato' => 'required|integer|exists:perro,id',
-            'estado' => 'required|boolean',
+            'preferencia' => 'required|string',
         ];
     }
 
@@ -47,12 +47,5 @@ class InteraccionRequest extends FormRequest
             'max' => 'El campo :attribute supera el largo máximo permitido',
             'array' => 'El campo :attribute debe ser de tipo array'
         ];
-    }
-
-    protected function failedValidation(Validator $validator)
-    {
-        throw new HttpResponseException(
-            response()->json($validator->errors()->all(), Response::HTTP_BAD_REQUEST)
-        );
     }
 }
