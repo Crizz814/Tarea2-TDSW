@@ -13,11 +13,8 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('perro', function (Blueprint $table){
-            $table->id();
-            $table->string('nombre');
-            $table->string('descripcion');
-            $table->timestamps();
+        Schema :: table ( 'perro' , function ( Blueprint  $table ) {
+            $table -> string ( 'url_imagen') -> nullable () -> after ( 'nombre' );
         });
     }
 

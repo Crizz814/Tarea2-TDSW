@@ -13,12 +13,7 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('perro', function (Blueprint $table){
-            $table->id();
-            $table->string('nombre');
-            $table->string('descripcion');
-            $table->timestamps();
-        });
+        //
     }
 
     /**
@@ -28,6 +23,8 @@ return new class extends Migration
      */
     public function down()
     {
-        //
+        Schema::table('pokemon', function (Blueprint $table) {
+            $table->dropIfExists('foto');
+        });
     }
 };
