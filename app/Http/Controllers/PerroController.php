@@ -4,99 +4,38 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Perro;
+use App\Repositories\PerroRepository;
+use App\Http\Requests\PerroRequest;
 
 class PerroController extends Controller
 {
-    public function registrarPerro($request)
+    public function __construct(PerroRepository $perroRepository)
     {
-        try {
-            $perro = new Perro();
-            $perro->nombre = $request->nombre;
-            $perro->url_imagen = $request->url_imagen;
-            $perro->descripcion = $request->descripcion;
-            $perro->save();
-            return response()->json(["perro" => $perro], Response::HTTP_OK);
-        } catch (Exception $e) {
-            return response()->json([
-                "error" => $e->getMessage(),
-                "linea" => $e->getLine(),
-                "file" => $e->getFile(),
-                "metodo" => __METHOD__
-            ], Response::HTTP_BAD_REQUEST);
-        }
+        $this->perroRepository = $perroRepository;
     }
 
-    public function actualizarPerro($request)
+    public function registrarPerro(PerroRequest $request)
     {
-        try {
-            $perro = Perro::find($request->id);
-            $perro->nombre = $request->nombre;
-            $perro->url_imagen = $request->url_imagen;
-            $perro->descripcion = $request->descripcion;
-            $perro->save();
-            return response()->json(["perro" => $perro], Response::HTTP_OK);
-        } catch (Exception $e) {
-            Log::info([
-                "error" => $e->getMessage(),
-                "linea" => $e->getLine(),
-                "file" => $e->getFile(),
-                "metodo" => __METHOD__
-            ]);
-
-            return response()->json([
-                "error" => $e->getMessage(),
-                "linea" => $e->getLine(),
-                "file" => $e->getFile(),
-                "metodo" => __METHOD__
-            ], Response::HTTP_BAD_REQUEST);
-        }
+        return $this->perroRepository->registrarPerro($request);
     }
 
-    public function listarPerro($request)
+    public function listarPerros(Request $request)
     {
-        try {
-          
-            $perros = Perro::all();
-            
-            return response()->json(["perros" => $perros], Response::HTTP_OK);
-        } catch (Exception $e) {
-            Log::info([
-                "error" => $e->getMessage(),
-                "linea" => $e->getLine(),
-                "file" => $e->getFile(),
-                "metodo" => __METHOD__
-            ]);
-
-            return response()->json([
-                "error" => $e->getMessage(),
-                "linea" => $e->getLine(),
-                "file" => $e->getFile(),
-                "metodo" => __METHOD__
-            ], Response::HTTP_BAD_REQUEST);
-        }
+        return $this->perroRepository->listarPerros($request);
     }
 
-    public function eliminarPerro($request)
+    public function listarPerro(Request $request)
     {
-        try {
-            $perro = Perro::find($request->id);
-            $perro->delete();
+        return $this->perroRepository->listarPerro($request);
+    }
 
-            return response()->json(["perro" => $perro], Response::HTTP_OK);
-        } catch (Exception $e) {
-            Log::info([
-                "error" => $e->getMessage(),
-                "linea" => $e->getLine(),
-                "file" => $e->getFile(),
-                "metodo" => __METHOD__
-            ]);
+    public function actualizarPerro(PerroRequest $request)
+    {
+        return $this->perroRepository->actualizarPerro($request);
+    }
 
-            return response()->json([
-                "error" => $e->getMessage(),
-                "linea" => $e->getLine(),
-                "file" => $e->getFile(),
-                "metodo" => __METHOD__
-            ], Response::HTTP_BAD_REQUEST);
-        }
+    public function eliminarPerro(Request $request)
+    {
+        return $this->perroRepository->eliminarPerro($request);
     }
 }

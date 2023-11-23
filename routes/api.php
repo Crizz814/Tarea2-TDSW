@@ -18,7 +18,8 @@ use App\Http\Controllers\PerroController;
 Route::group(['prefix' => 'perro'], function () {
     Route::post('/registrarPerro', [PerroController::class, 'registrarPerro']);
     Route::post('/actualizarPerro', [PerroController::class, 'actualizarPerro']);
-    Route::get('/listarPerro', [PerroController::class, 'listarPerro']);
+    Route::get('/listarPerro/{id}', [PerroController::class, 'listarPerro']);
+    Route::get('/listarPerros', [PerroController::class, 'listarPerros']);
     Route::get('/eliminarPoke/{id}', [PerroController::class, 'eliminarPerro']);
 });
 
