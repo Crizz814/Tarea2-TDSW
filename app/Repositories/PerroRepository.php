@@ -17,6 +17,9 @@ class PerroRepository
             $perro->nombre = $request->nombre;
             $perro->url_imagen = $request->url_imagen;
             $perro->descripcion = $request->descripcion;
+            if ($perro->url_imagen == null) {
+                $perro->url_imagen = json_decode(file_get_contents("https://dog.ceo/api/breeds/image/random"))->message;
+            }
             $perro->save();
             return response()->json(["perro" => $perro], Response::HTTP_OK);
         } catch (Exception $e) {
@@ -144,32 +147,6 @@ class PerroRepository
         }
     }
 
-    public function registrarInteraccion($request)
-    {
-        try {
-            $interaccion = new Interaccion();
-            $interaccion->id_perro_interesado = $request->id_perro_interesado;
-            $interaccion->id_perro_candidato = $request->id_perro_candidato;
-            $interaccion->preferencia = $request->preferencia;
-            $interaccion->save();
-            
-            if($interaccion->preferencia === "A") return "It's a Match!";
-            else return "ok";
-            //return response()->json(["interaccion" => $interaccion], Response::HTTP_OK);
-        } catch (Exception $e) {
-            Log::info([
-                "error" => $e->getMessage(),
-                "linea" => $e->getLine(),
-                "file" => $e->getFile(),
-                "metodo" => __METHOD__
-            ]);
-
-            return response()->json([
-                "error" => $e->getMessage(),
-                "linea" => $e->getLine(),
-                "file" => $e->getFile(),
-                "metodo" => __METHOD__
-            ], Response::HTTP_BAD_REQUEST);
-        }
-    }
+    public function comprobarURL($request)
+    {}
 }

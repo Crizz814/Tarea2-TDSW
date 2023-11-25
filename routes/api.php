@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PerroController;
+use App\Http\Controllers\InteraccionController;
 
 /*
 |--------------------------------------------------------------------------
@@ -25,7 +25,8 @@ Route::group(['prefix' => 'perro'], function () {
 });
 
 Route::group(['prefix' => 'interaccion'], function () {
-    Route::post('/registrarInteraccion', [PerroController::class, 'registrarInteraccion']);
+    Route::post('/registrarInteraccion', [InteraccionController::class, 'registrarInteraccion']);
+    Route::get('/candidato', [InteraccionController::class, 'perroCandidato']);
 });
 
 

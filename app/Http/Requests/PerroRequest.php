@@ -16,7 +16,7 @@ class PerroRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -27,7 +27,7 @@ class PerroRequest extends FormRequest
     public function rules()
     {
         return [
-            'nombre' => 'required|string',
+            'nombre' => 'required|unique:perro|string',
             'url_imagen' => 'nullable|unique:perro|string',
             'descripcion' => 'required|string',
         ];

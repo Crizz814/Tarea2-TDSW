@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Perro;
 use App\Repositories\PerroRepository;
 use App\Http\Requests\PerroRequest;
-use App\Http\Requests\InteraccionRequest;
+
 
 class PerroController extends Controller
 {
@@ -43,10 +43,5 @@ class PerroController extends Controller
     public function perroRandom(Request $request)
     {
         return $this->perroRepository->perroRandom($request);
-    }
-
-    public function registrarInteraccion(InteraccionRequest $request)
-    {
-        return $this->perroRepository->registrarInteraccion($request);
     }
 }
