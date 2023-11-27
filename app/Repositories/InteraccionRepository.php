@@ -41,10 +41,56 @@ class InteraccionRepository
             $interaccion->id_perro_candidato = $request->id_perro_candidato;
             $interaccion->preferencia = $request->preferencia;
             $interaccion->save();
-            
-            if($interaccion->preferencia === "A") return "It's a Match!";
+            $isAMatch = Interaccion::where('id_perro_interesado', $request->id_perro_candidato)->where('id_perro_candidato', $request->id_perro_interesado)->first();
+            if($isAMatch && $interaccion->preferencia === "A" && $isAMatch->preferencia === "A") return "It's a Match!";
             else return "ok";
             //return response()->json(["interaccion" => $interaccion], Response::HTTP_OK);
+        } catch (Exception $e) {
+            Log::info([
+                "error" => $e->getMessage(),
+                "linea" => $e->getLine(),
+                "file" => $e->getFile(),
+                "metodo" => __METHOD__
+            ]);
+
+            return response()->json([
+                "error" => $e->getMessage(),
+                "linea" => $e->getLine(),
+                "file" => $e->getFile(),
+                "metodo" => __METHOD__
+            ], Response::HTTP_BAD_REQUEST);
+        }
+    }
+
+    public function verAceptados($request)
+    {
+        try {
+            $perro = Perro::find($request->id);
+            $perrosAceptados = Interaccion::where('id_perro_interesado', $perro->id)->where('preferencia', 'A')->get();
+            return response()->json(["perrosAceptados" => $perrosAceptados], Response::HTTP_OK);
+        } catch (Exception $e) {
+            Log::info([
+                "error" => $e->getMessage(),
+                "linea" => $e->getLine(),
+                "file" => $e->getFile(),
+                "metodo" => __METHOD__
+            ]);
+
+            return response()->json([
+                "error" => $e->getMessage(),
+                "linea" => $e->getLine(),
+                "file" => $e->getFile(),
+                "metodo" => __METHOD__
+            ], Response::HTTP_BAD_REQUEST);
+        }
+    }
+
+    public function verRechazados($request)
+    {
+        try {
+            $perro = Perro::find($request->id);
+            $perrosRechazados = Interaccion::where('id_perro_interesado', $perro->id)->where('preferencia', 'R')->get();
+            return response()->json(["perrosRechazados" => $perrosRechazados], Response::HTTP_OK);
         } catch (Exception $e) {
             Log::info([
                 "error" => $e->getMessage(),

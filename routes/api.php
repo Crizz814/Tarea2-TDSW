@@ -27,6 +27,8 @@ Route::group(['prefix' => 'perro'], function () {
 Route::group(['prefix' => 'interaccion'], function () {
     Route::post('/registrarInteraccion', [InteraccionController::class, 'registrarInteraccion']);
     Route::get('/candidato', [InteraccionController::class, 'perroCandidato']);
+    Route::get('/verAceptados/{id}', [InteraccionController::class, 'verAceptados']);
+    Route::get('/verRechazados/{id}', [InteraccionController::class, 'verRechazados']);
 });
 
 

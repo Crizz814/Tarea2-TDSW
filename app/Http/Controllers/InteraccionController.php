@@ -22,4 +22,14 @@ class InteraccionController extends Controller
     {
         return $this->InteraccionRepository->perroCandidato($request);
     }
+
+    public function verAceptados(Request $request)
+    {
+        return $this->InteraccionRepository->verAceptados($request);
+    }
+
+    public function verRechazados(Request $request)
+    {
+        return $this->InteraccionRepository->verRechazados($request);
+    }
 }
