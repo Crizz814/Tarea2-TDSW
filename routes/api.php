@@ -20,7 +20,7 @@ Route::group(['prefix' => 'perro'], function () {
     Route::post('/actualizarPerro', [PerroController::class, 'actualizarPerro']);
     Route::get('/listarPerro/{id}', [PerroController::class, 'listarPerro']);
     Route::get('/listarPerros', [PerroController::class, 'listarPerros']);
-    Route::get('/eliminarPoke/{id}', [PerroController::class, 'eliminarPerro']);
+    Route::get('/eliminarPerro/{id}', [PerroController::class, 'eliminarPerro']);
     Route::get('/perroRandom', [PerroController::class, 'perroRandom']);
 });
 

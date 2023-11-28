@@ -81,7 +81,7 @@ class PerroRepository
         try {
             $perro = Perro::find($request->id);
             $perro->nombre = $request->nombre;
-            $perro->url_imagen = $request->url_imagen;
+            if($request->url_imagen != null)$perro->url_imagen = $request->url_imagen;
             $perro->descripcion = $request->descripcion;
             $perro->save();
             return response()->json(["perro" => $perro], Response::HTTP_OK);
