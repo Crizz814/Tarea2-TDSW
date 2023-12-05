@@ -15,11 +15,8 @@ class PerroRepository
         try {
             $perro = new Perro();
             $perro->nombre = $request->nombre;
-            $perro->url_imagen = $request->url_imagen;
+            $perro->url_imagen = $request->imagen;
             $perro->descripcion = $request->descripcion;
-            if ($perro->url_imagen == null) {
-                $perro->url_imagen = json_decode(file_get_contents("https://dog.ceo/api/breeds/image/random"))->message;
-            }
             $perro->save();
             return response()->json(["perro" => $perro], Response::HTTP_OK);
         } catch (Exception $e) {
