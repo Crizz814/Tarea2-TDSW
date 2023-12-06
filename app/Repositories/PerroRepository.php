@@ -125,7 +125,7 @@ class PerroRepository
     public function perroRandom($request)
     {
         try {
-            $perro = Perro::select('id', 'nombre')->inRandomOrder()->first();
+            $perro = Perro::inRandomOrder()->first();
             return response()->json(["perro" => $perro], Response::HTTP_OK);
         } catch (Exception $e) {
             Log::info([
