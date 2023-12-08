@@ -14,7 +14,24 @@ class InteraccionRepository
         {
             try {
                 $interesado = Perro::find($request->id); // Perro que está buscando
-                $candidato = Perro::where('id', '!=', $interesado->id)->inRandomOrder()->first(); // Perro que se le va a mostrar
+
+                // Obtén los IDs de los perros con los que el interesado ya ha tenido interacciones
+                $perrosConInteracciones = Interaccion::where('id_perro_interesado', $interesado->id)
+                    ->pluck('id_perro_candidato')
+                    ->toArray();
+
+                // Si hay perros con los que ha tenido interacciones, exclúyelos de la consulta
+                if (!empty($perrosConInteracciones)) {
+                    $candidato = Perro::whereNotIn('id', [$interesado->id, ...$perrosConInteracciones])
+                        ->inRandomOrder()
+                        ->first();
+                } else {
+                    // Si no ha tenido interacciones, simplemente obtén un perro aleatorio
+                    $candidato = Perro::where('id', '!=', $interesado->id)
+                        ->inRandomOrder()
+                        ->first();
+                }
+                /*$candidato = Perro::where('id', '!=', $interesado->id)->inRandomOrder()->first(); // Perro que se le va a mostrar
                 $interacciones = Interaccion::where('id_perro_interesado', $interesado->id)->get(); // Interacciones del perro que está buscando
                 if($interacciones->count() > 0){ // Si el perro que está buscando tiene interacciones
                     foreach($interacciones as $interaccion){ // Por cada interacción
@@ -22,7 +39,7 @@ class InteraccionRepository
                             $candidato = Perro::where('id', '!=', $interesado->id)->inRandomOrder()->first(); // Se busca otro perro
                         }
                     }
-                }
+                }*/
                 return response()->json(["perro" => $candidato], Response::HTTP_OK);
             } catch (Exception $e) {
                 Log::info([
@@ -116,3 +133,4 @@ class InteraccionRepository
         }
     }
 }
+
