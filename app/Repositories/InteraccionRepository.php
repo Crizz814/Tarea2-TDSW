@@ -13,9 +13,17 @@ class InteraccionRepository
     public function perroCandidato($request)
         {
             try {
-                $perroInteresado = Perro::find($request->id);
-                $perroCandidato = Perro::where('id', '!=', $perroInteresado)->select('id','nombre','url_imagen')->inRandomOrder()->first();
-                return response()->json(["perro" => $perroCandidato], Response::HTTP_OK);
+                $interesado = Perro::find($request->id); // Perro que está buscando
+                $candidato = Perro::where('id', '!=', $interesado->id)->inRandomOrder()->first(); // Perro que se le va a mostrar
+                $interacciones = Interaccion::where('id_perro_interesado', $interesado->id)->get(); // Interacciones del perro que está buscando
+                if($interacciones->count() > 0){ // Si el perro que está buscando tiene interacciones
+                    foreach($interacciones as $interaccion){ // Por cada interacción
+                        if($interaccion->id_perro_candidato === $candidato->id){ // Si el perro que se le va a mostrar ya tuvo una interacción con el perro interesado
+                            $candidato = Perro::where('id', '!=', $interesado->id)->inRandomOrder()->first(); // Se busca otro perro
+                        }
+                    }
+                }
+                return response()->json(["perro" => $candidato], Response::HTTP_OK);
             } catch (Exception $e) {
                 Log::info([
                     "error" => $e->getMessage(),
