@@ -67,9 +67,8 @@ class InteraccionRepository
             $interaccion->preferencia = $request->preferencia;
             $interaccion->save();
             $isAMatch = Interaccion::where('id_perro_interesado', $request->id_perro_candidato)->where('id_perro_candidato', $request->id_perro_interesado)->first();
-            if($isAMatch && $interaccion->preferencia === "A" && $isAMatch->preferencia === "A") return "It's a Match!";
-            else return "ok";
-            //return response()->json(["interaccion" => $interaccion], Response::HTTP_OK);
+            if($isAMatch && $interaccion->preferencia === "A" && $isAMatch->preferencia === "A") return response()->json(["mensaje" => "It's a Match!", "interaccion" => $interaccion], Response::HTTP_OK);
+            else return response()->json(["mensaje" => "ok", "interaccion" => $interaccion], Response::HTTP_OK);
         } catch (Exception $e) {
             Log::info([
                 "error" => $e->getMessage(),
@@ -92,7 +91,9 @@ class InteraccionRepository
         try {
             $perro = Perro::find($request->id);
             $perrosAceptados = Interaccion::where('id_perro_interesado', $perro->id)->where('preferencia', 'A')->get();
-            return response()->json(["perrosAceptados" => $perrosAceptados], Response::HTTP_OK);
+            $perros = Perro::whereIn('id', $perrosAceptados->pluck('id_perro_candidato'))->orderBy('id')->get();
+
+            return response()->json(["perros" => $perros], Response::HTTP_OK);
         } catch (Exception $e) {
             Log::info([
                 "error" => $e->getMessage(),
@@ -115,7 +116,8 @@ class InteraccionRepository
         try {
             $perro = Perro::find($request->id);
             $perrosRechazados = Interaccion::where('id_perro_interesado', $perro->id)->where('preferencia', 'R')->get();
-            return response()->json(["perrosRechazados" => $perrosRechazados], Response::HTTP_OK);
+            $perros = Perro::whereIn('id', $perrosRechazados->pluck('id_perro_candidato'))->orderBy('id')->get();
+            return response()->json(["perros" => $perros], Response::HTTP_OK);
         } catch (Exception $e) {
             Log::info([
                 "error" => $e->getMessage(),
